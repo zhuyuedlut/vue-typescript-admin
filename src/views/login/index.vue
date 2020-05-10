@@ -38,16 +38,18 @@
           ref="password"
           v-model="loginForm.password"
           :type="passwordType"
-          :placerhold="$t('login.password')"
+          :placeholder="$t('login.password')"
           name="password"
           tabindex="2"
           autocomplete="true"
+          @keyup.enter.native="handleLogin"
         />
       </el-form-item>
       <el-button
         :loading="loading"
         type="primary"
         style="width: 100%;margin-top: 30px"
+        @click.native.prevent="handleLogin"
       >
         {{ $t('login.logIn') }}
       </el-button>
@@ -60,6 +62,7 @@ import { Component, Vue } from 'vue-property-decorator'
 import { isValidUsername } from '@/untils/validate'
 import { Input, Form as ElForm } from 'element-ui'
 import LangSelect from '@/components/LangSelect/index.vue'
+import {UserModule} from "@/store/modules/user";
 
 @Component({
   name: 'Login',
@@ -110,6 +113,10 @@ export default class extends Vue {
     (this.$refs.loginForm as ElForm).validate(async(validate: boolean) => {
       if (validate) {
         this.loading = true
+        await UserModule.Login(this.loginForm)
+        await this.$router.push({
+          path: '/'
+        })
       } else {
         return false
       }

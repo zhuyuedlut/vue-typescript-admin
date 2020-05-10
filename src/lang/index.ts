@@ -8,7 +8,7 @@ import { getLanguage } from "@/untils/cookies";
 
 Vue.use(VueI18n);
 
-const messages = {
+export const messages = {
     en: {
       ...enLocale,
       ...elementEnLocale,

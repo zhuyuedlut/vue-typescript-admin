@@ -173,6 +173,12 @@ export default {
     sidebarTextTheme: 'Sidebar Text Theme'
   },
   message: {
-    language: 'Switch Language Success'
+    language: 'Switch Language Success',
+    login: {
+      logout: 'You have been logged out. You can cancel to stay on this page, or log in again',
+      title: 'confirm logout',
+      loginAgain: 'log in again',
+      cancel: 'cancel',
+    }
   }
 }

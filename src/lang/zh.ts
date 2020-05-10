@@ -173,6 +173,12 @@ export default {
     sidebarTextTheme: '侧边栏文字主题色'
   },
   message: {
-    language: '切换语言成功'
+    language: '切换语言成功',
+    login: {
+      logout: '你已被登出，可以取消继续留在该页面，或者重新登录',
+      title: '确认登出',
+      loginAgain: '重新登陆',
+      cancel: '取消',
+    }
   }
 }
