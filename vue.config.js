@@ -1,11 +1,12 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const path = require('path')
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const settings = require('./src/settings')
 
-const devServerPort = settings.devServerPort
-const mockServerPort = settings.mockServerPort
-const name = settings.name
+// If your port is set to 80,
+// use administrator privileges to execute the command line.
+// For example, on Mac: sudo npm run / sudo yarn
+const devServerPort = 9527 // TODO: get this variable from setting.ts
+const mockServerPort = 9525 // TODO: get this variable from setting.ts
+const name = 'Vue Typescript Admin' // TODO: get this variable from setting.ts
 
 module.exports = {
   publicPath: process.env.NODE_ENV === 'production' ? '/vue-typescript-admin-template/' : '/',

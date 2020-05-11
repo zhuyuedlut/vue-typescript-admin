@@ -19,7 +19,7 @@ const settings: ISettings = {
   errorLog: ['production'],
   sidebarTextTheme: true,
   devServerPort: 9527,
-  mockServerPort: 9528
+  mockServerPort: 9525
 }
 
 export default settings;
