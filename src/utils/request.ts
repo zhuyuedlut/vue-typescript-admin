@@ -2,7 +2,7 @@ import axios from 'axios'
 import { Message, MessageBox } from 'element-ui'
 import { UserModule } from '@/store/modules/user'
 import { LOGOUT, SUCCESS } from "@/constant/code"
-import i18n from "@/untils/i18n"
+import i18n from "@/utils/i18n"
 
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API,

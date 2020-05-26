@@ -1,4 +1,4 @@
-import {RouteConfig} from "vue-router";
+import {RouteConfig} from "vue-router"
 
 const asyncRoutes: Array<RouteConfig> = [];
 

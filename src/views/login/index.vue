@@ -59,10 +59,10 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { isValidUsername } from '@/untils/validate'
+import { isValidUsername } from '@/utils/validate'
 import { Input, Form as ElForm } from 'element-ui'
 import LangSelect from '@/components/LangSelect/index.vue'
-import {UserModule} from "@/store/modules/user";
+import { UserModule } from '@/store/modules/user'
 
 @Component({
   name: 'Login',

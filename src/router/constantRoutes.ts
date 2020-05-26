@@ -7,6 +7,12 @@ const constantRoutes: Array<RouteConfig> = [
         name: 'login',
         component: () => import(/* webpackChunkName: "guide" */ '@/views/login/index.vue')
     },
+    {
+        path: '/',
+        component: Layout,
+        redirect: '/dashboard',
+    }
+
 ];
 
 export default constantRoutes;

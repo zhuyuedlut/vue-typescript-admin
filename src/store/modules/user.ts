@@ -1,7 +1,10 @@
 import { VuexModule, Module, Action, Mutation, getModule } from 'vuex-module-decorators'
-import { getToken, setToken, removeToken } from "@/untils/cookies"
-import { login } from '@/api/users'
+import { login, logout, getUserInfo } from '@/api/users'
+import { getToken, setToken, removeToken } from "@/utils/cookies"
+import router, { resetRouter } from '@/router'
 import store from '@/store'
+import { PermissionModule } from '@/store/modules/permission'
+import { TagsViewModule } from '@/store/modules/tags-view'
 
 export interface IUserState {
   token: string,
@@ -67,6 +70,51 @@ class User extends VuexModule implements IUserState {
     this.SET_ROLES([])
   }
 
+  @Action
+  public async GetUserInfo() {
+    if(this.token === '') {
+      throw new Error('GetUserInfo: token is undefined!')
+    }
+    const { data } = await getUserInfo({})
+    if (!data) {
+      throw new Error('Verification failed, please Login again.')
+    }
+    const { roles, name, avatar, introduction, email } = data.user
+    // roles must be a non-empty array
+    if (!roles || roles.length <= 0) {
+      throw Error('GetUserInfo: roles must be a non-null array!')
+    }
+    this.SET_ROLES(roles)
+    this.SET_NAME(name)
+    this.SET_AVATAR(avatar)
+    this.SET_INTRODUCTION(introduction)
+    this.SET_EMAIL(email)
+  }
+
+  @Action
+  public async ChangeRoles(role: string) {
+    const token = role + '-token'
+    this.SET_TOKEN(token)
+    setToken(token)
+    await this.GetUserInfo()
+    resetRouter()
+    PermissionModule.GenerateRoutes(this.roles)
+    router.addRoutes(PermissionModule.dynamicRoutes)
+    TagsViewModule.delAllViews()
+  }
+
+  @Action
+  public async LogOut() {
+    if (this.token === '') {
+      throw new Error('LogOut: token is undefined!')
+    }
+    await logout()
+    removeToken()
+    resetRouter()
+    TagsViewModule.delAllViews()
+    this.SET_TOKEN('')
+    this.SET_ROLES([])
+  }
 }
 
 export const UserModule = getModule(User);

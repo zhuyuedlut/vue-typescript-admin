@@ -1,7 +1,7 @@
-import { VuexModule, Module, Mutation, Action, getModule } from 'vuex-module-decorators';
-import { getSidebarStatus, setSidebarStatus, getSize, setSize, setLanguage } from '@/untils/cookies';
+import { VuexModule, Module, Mutation, Action, getModule } from 'vuex-module-decorators'
+import { getSidebarStatus, setSidebarStatus, getSize, setSize, setLanguage } from '@/utils/cookies'
 import { getLocal } from '@/lang'
-import store from '@/store';
+import store from '@/store'
 
 export enum DeviceType {
     Mobile,
@@ -11,7 +11,7 @@ export enum DeviceType {
 export interface IAppState {
     device: DeviceType,
     sidebar: {
-        open: boolean,
+        opened: boolean,
         withoutAnimation: boolean,
     },
     language: string,
@@ -20,32 +20,32 @@ export interface IAppState {
 
 @Module({ dynamic: true, store, name: 'app' })
 class App extends VuexModule implements IAppState {
-    public device = DeviceType.Desktop;
+    public device = DeviceType.Desktop
 
     public sidebar = {
-        open: getSidebarStatus() !== 'closed',
+        opened: getSidebarStatus() !== 'closed',
         withoutAnimation: false
     }
 
-    public language = getLocal();
-    public size = getSize() || 'medium';
+    public language = getLocal()
+    public size = getSize() || 'medium'
 
     @Mutation
     private TOGGLE_SIDEBAR(withoutAnimation: boolean) {
-        this.sidebar.open = !this.sidebar.open;
-        this.sidebar.withoutAnimation = withoutAnimation;
-        if (this.sidebar.open) {
-            setSidebarStatus('opened');
+        this.sidebar.opened = !this.sidebar.opened
+        this.sidebar.withoutAnimation = withoutAnimation
+        if (this.sidebar.opened) {
+            setSidebarStatus('opened')
         } else {
-            setSidebarStatus('closed');
+            setSidebarStatus('closed')
         }
     }
 
     @Mutation
     private CLOSE_SIDEBAR(withoutAnimation: boolean) {
-        this.sidebar.open = false;
-        this.sidebar.withoutAnimation = withoutAnimation;
-        setSidebarStatus('closed');
+        this.sidebar.opened = false
+        this.sidebar.withoutAnimation = withoutAnimation
+        setSidebarStatus('closed')
     }
 
     @Mutation
@@ -55,8 +55,8 @@ class App extends VuexModule implements IAppState {
 
     @Mutation
     private SET_LANGUAGE(language: string) {
-        this.language = language;
-        setLanguage(language);
+        this.language = language
+        setLanguage(language)
     }
 
     @Mutation
@@ -91,4 +91,4 @@ class App extends VuexModule implements IAppState {
     }
 }
 
-export const AppModule = getModule(App);
+export const AppModule = getModule(App)
