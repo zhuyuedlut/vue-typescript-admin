@@ -1,14 +1,15 @@
 <template>
   <div :class="classObj" class="app-wrapper">
     <div
-        v-if="classObj.mobile && sidebar.opened"
-        class="draw-bg"
-        @click="handleClickOutSide"
+      v-if="classObj.mobile && sidebar.opened"
+      class="draw-bg"
+      @click="handleClickOutSide"
     />
     <sidebar class="sidebar-container" />
     <div :class="{hasTagsView: showTagsView}" class="main-container">
       <div :class="{'fixed-header': fixedHeader}">
-
+        <navbar />
+        <tags-view v-if="showTagsView" />
       </div>
     </div>
   </div>
@@ -21,11 +22,15 @@ import { SettingsModule } from '@/store/modules/settings'
 import ResizeMixin from './mixin/resize'
 import { AppModule, DeviceType } from '@/store/modules/app'
 import Sidebar from '@/layout/components/Sidebar/index.vue'
+import Navbar from '@/layout/components/Navbar/index.vue'
+import TagsView from '@/layout/components/TagsView/index.vue'
 
 @Component({
   name: 'Layout',
   components: {
-    Sidebar
+    Navbar,
+    Sidebar,
+    TagsView
   }
 })
 export default class extends mixins(ResizeMixin) {
