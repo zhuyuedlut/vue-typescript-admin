@@ -11,6 +11,10 @@
         <navbar />
         <tags-view v-if="showTagsView" />
       </div>
+      <app-main />
+      <right-panel v-if="showSettings" >
+        <Setting />
+      </right-panel>
     </div>
   </div>
 </template>
@@ -24,13 +28,19 @@ import { AppModule, DeviceType } from '@/store/modules/app'
 import Sidebar from '@/layout/components/Sidebar/index.vue'
 import Navbar from '@/layout/components/Navbar/index.vue'
 import TagsView from '@/layout/components/TagsView/index.vue'
+import AppMain from '@/layout/components/AppMain.vue'
+import Setting from '@/layout/components/Settings/index.vue'
+import RightPanel from '@/components/RightPanel/index.vue'
 
 @Component({
   name: 'Layout',
   components: {
+    AppMain,
     Navbar,
     Sidebar,
-    TagsView
+    TagsView,
+    Setting,
+    RightPanel
   }
 })
 export default class extends mixins(ResizeMixin) {
