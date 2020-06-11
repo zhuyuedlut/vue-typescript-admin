@@ -171,7 +171,7 @@ export default class extends Vue {
     this.moveToCurrentTag()
   }
 
-  private closeAllTags() {
+  private closeAllTags(view: ITagView) {
     TagsViewModule.delAllViews()
     if (this.affixTags.some(tag => tag.path === this.$route.path)) {
       return
