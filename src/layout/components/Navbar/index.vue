@@ -1,6 +1,11 @@
 <template>
   <div class="navbar">
-    <hamburger id="hamburger-container" :is-active="sidebar.open" />
+    <hamburger
+      id="hamburger-container"
+      :is-active="sidebar.open"
+      class="hamburger-container"
+      @toggleClick="toggleSideBar"
+    />
     <breadcrumb id="breadcrumb-container" class="breadcrumb-container" />
     <div class="right-menu">
       <template v-if="device !== 'mobile'">
@@ -71,6 +76,7 @@ import HeaderSearch from '@/components/HeaderSearch/index.vue'
 import ErrorLog from '@/components/ErrorLog/index.vue'
 import Screenfull from '@/components/Screenfull/index.vue'
 import LangSelect from '@/components/LangSelect/index.vue'
+import SizeSelect from '@/components/SizeSelect/index.vue'
 
 @Component({
   name: 'Navbar',
@@ -80,7 +86,8 @@ import LangSelect from '@/components/LangSelect/index.vue'
     ErrorLog,
     HeaderSearch,
     Hamburger,
-    Breadcrumb
+    Breadcrumb,
+    SizeSelect
   }
 })
 export default class extends Vue {

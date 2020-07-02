@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="!item.meta || item.meta.hidden"
+    v-if="!item.meta || !item.meta.hidden"
     :class="[isCollapse ? 'simple-mode' : 'full-mode', {'first-level': isFirstLevel}]"
   >
     <template v-if="!alwaysShowRootMenu && theOnlyOneChild && !theOnlyOneChild.children">
@@ -8,21 +8,11 @@
         v-if="theOnlyOneChild.meta"
         :to="resolvePath(theOnlyOneChild.path)"
       >
-        <el-menu-item
-          :index="resolvePath(theOnlyOneChild.path)"
-          :class="{'submenu-title-noDropdown': isFirstLevel}"
-        >
-          <svg-icon
-            v-if="theOnlyOneChild.meta.icon"
-            :name="theOnlyOneChild.meta.icon"
-          >
-            <span
-              v-if="theOnlyOneChild.meta.title"
-              slot="title"
-            >
-              {{ $t('route.' + theOnlyOneChild.meta.title) }}
-            </span>
-          </svg-icon>
+        <el-menu-item :index="resolvePath(theOnlyOneChild.path)" :class="{'submenu-title-noDropdown': isFirstLevel}">
+          <svg-icon v-if="theOnlyOneChild.meta.icon" :name="theOnlyOneChild.meta.icon" />
+          <span v-if="theOnlyOneChild.meta.title" slot="title">
+            {{ $t('route.' + theOnlyOneChild.meta.title) }}
+          </span>
         </el-menu-item>
       </sidebar-item-link>
     </template>

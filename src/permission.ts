@@ -21,7 +21,7 @@ const getPageTitle = (key: string) => {
   return `${settings.title}`
 }
 
-router.beforeEach(async (to: Route, _:Route, next: any) => {
+router.beforeEach(async (to: Route, _: Route, next: any) => {
   NProgress.start()
 
   if (UserModule.token) {
@@ -47,7 +47,7 @@ router.beforeEach(async (to: Route, _:Route, next: any) => {
       }
     }
   } else {
-    if (whiteList.indexOf(to.path) !== -1) {
+    if (whiteList.includes(to.path)) {
       next()
     } else {
       next(`/login?redirect=${to.path}`)

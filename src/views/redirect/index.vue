@@ -7,12 +7,11 @@ import { Component, Vue } from 'vue-property-decorator'
 export default class extends Vue {
   created() {
     const { query, params: { path } } = this.$route
-    console.log(path)
     this.$router.replace({ path: '/' + path, query })
   }
 
   render() {
-    // Todo
+    // Avoid warning for missing template
   }
 }
 </script>

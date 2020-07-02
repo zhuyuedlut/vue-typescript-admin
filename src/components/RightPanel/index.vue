@@ -1,7 +1,7 @@
 <template>
   <div
     ref="rightPanel"
-    :class="{show: true}"
+    :class="{show: show}"
     class="rightPanel-container"
   >
     <div class="rightPanel-background" />

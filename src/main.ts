@@ -4,6 +4,7 @@ import router from './router'
 import store from './store'
 import './plugins/element'
 import './plugins/svg'
+import './permission'
 
 import i18n from '@/lang'
 

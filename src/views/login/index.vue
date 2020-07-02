@@ -29,22 +29,37 @@
           autocomplete="true"
         />
       </el-form-item>
-      <el-form-item prop="password">
+      <el-tooltip
+        v-model="capsTooltip"
+        content="Caps lock is on"
+        placement="right"
+        manual
+      >
+        <el-form-item prop="password">
         <span class="svg-container">
           <svg-icon name="password" />
         </span>
-        <el-input
-          :key="passwordType"
-          ref="password"
-          v-model="loginForm.password"
-          :type="passwordType"
-          :placeholder="$t('login.password')"
-          name="password"
-          tabindex="2"
-          autocomplete="true"
-          @keyup.enter.native="handleLogin"
-        />
-      </el-form-item>
+          <el-input
+            :key="passwordType"
+            ref="password"
+            v-model="loginForm.password"
+            :type="passwordType"
+            :placeholder="$t('login.password')"
+            name="password"
+            tabindex="2"
+            autocomplete="true"
+            @keyup.enter.native = "handleLogin"
+            @keyup.native ="capsTooltip = false"
+          />
+          <span
+            class="show-pwd"
+            @click="showPwd"
+          >
+            <svg-icon :name="passwordType === 'password' ? 'eye-off' : 'eye-on'" />
+          </span>
+        </el-form-item>
+      </el-tooltip>
+
       <el-button
         :loading="loading"
         type="primary"
@@ -53,16 +68,30 @@
       >
         {{ $t('login.logIn') }}
       </el-button>
+
+      <div style="position: relative;height: 60px">
+        <el-button class="thirdparty-button" type="primary" @click="showDialog = true">
+          {{ $t('login.thirdparty')}}
+        </el-button>
+      </div>
     </el-form>
+
+    <el-dialog :title="$t('login.thirdparty')" :visible.sync="showDialog">
+      {{ $t('login.thirdpartyTips') }}
+      <br>
+      <br>
+      <br>
+    </el-dialog>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue, Watch } from 'vue-property-decorator'
 import { isValidUsername } from '@/utils/validate'
 import { Input, Form as ElForm } from 'element-ui'
 import LangSelect from '@/components/LangSelect/index.vue'
 import { UserModule } from '@/store/modules/user'
+import { Dictionary, Route } from 'vue-router/types/router'
 
 @Component({
   name: 'Login',
@@ -92,14 +121,26 @@ export default class extends Vue {
     password: ''
   }
 
-  private passwordType = 'password'
-
   private loginRules = {
     username: [{ validator: this.validateUsername, trigger: 'blur' }],
     password: [{ validator: this.validatePassword, trigger: 'blur' }]
   }
 
+  private passwordType = 'password'
   private loading = false
+  private showDialog = false
+  private capsTooltip = false
+  private redirect?: string
+  private otherQuery: Dictionary<string> = {}
+
+  @Watch('$route', { immediate: true })
+  private onRouteChange(route: Route) {
+    const query = route.query as Dictionary<string>
+    if (query) {
+      this.redirect = query.redirect
+      this.otherQuery = this.getOtherQuery(query)
+    }
+  }
 
   mounted() {
     if (this.loginForm.username === '') {
@@ -115,12 +156,33 @@ export default class extends Vue {
         this.loading = true
         await UserModule.Login(this.loginForm)
         await this.$router.push({
-          path: '/'
+          path: this.redirect || '/',
+          query: this.otherQuery
         })
       } else {
         return false
       }
     })
+  }
+
+  private showPwd() {
+    if (this.passwordType === 'password') {
+      this.passwordType = ''
+    } else {
+      this.passwordType = 'password'
+    }
+    this.$nextTick(() => {
+      (this.$refs.password as Input).focus()
+    })
+  }
+
+  private getOtherQuery(query: Dictionary<string>) {
+    return Object.keys(query).reduce((acc, curr) => {
+      if (curr !== 'redirect') {
+        acc[curr] = query[curr]
+      }
+      return acc
+    }, {} as Dictionary<string>)
   }
 }
 </script>
